@@ -2,10 +2,10 @@
 
 LANG=en_US.utf8
 
-# logs the active window titles over time. Logs are written 
+# logs the active window titles over time. Logs are written
 # in logs/windowX.txt, where X is unix timestamp of 7am of the
 # recording day. The logs are written if a window change event occurs
-# (with 2 second frequency check time), or every 10 minutes if 
+# (with 2 second frequency check time), or every 10 minutes if
 # no changes occur.
 
 waittime="2" # number of seconds between executions of loop
@@ -50,7 +50,7 @@ do
 	fi
 
 	T="$(date +%s)"
-	
+
 	# if more than some time has elapsed, do a write anyway
 	#elapsed_seconds=$(expr $T - $last_write)
 	#if [ $elapsed_seconds -ge $maxtime ]; then
@@ -58,7 +58,7 @@ do
 	#fi
 
 	# log window switch if appropriate
-	if [ "$perform_write" = true ]; then 
+	if [ "$perform_write" = true ]; then
 		# number of seconds elapsed since Jan 1, 1970 0:00 UTC
 		logfile="logs/window_$(python rewind7am.py).txt"
 		echo "$T $curtitle" >> $logfile
@@ -69,7 +69,3 @@ do
 	lasttitle="$curtitle" # swap
 	sleep "$waittime" # sleep
 done
-
-
-
-
