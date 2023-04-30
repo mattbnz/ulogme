@@ -35,26 +35,26 @@ def loadEvents(fname):
       events.append({'t':stamp, 's':str})
       if stamp < mint or mint==-1: mint = stamp
       if stamp > maxt or maxt==-1: maxt = stamp
-  except Exception, e:
-    print 'could not load %s. Setting empty events list.' % (fname, )
-    print '(this is probably OKAY by the way, just letting you know)'
-    print e
+  except Exception as e:
+    print('could not load %s. Setting empty events list.' % (fname, ))
+    print('(this is probably OKAY by the way, just letting you know)')
+    print(e)
     events = []
   return events
 
 # load all window events
 active_window_file = os.path.join(ROOT, 'logs/activewin.txt')
-print 'loading windows events...'
+print('loading windows events...')
 wevents = loadEvents(active_window_file)
 
 # load all keypress events
 keyfreq_file = os.path.join(ROOT, 'logs/keyfreq.txt')
-print 'loading key frequencies...'
+print('loading key frequencies...')
 kevents = loadEvents(keyfreq_file)
 for k in kevents: # convert the key frequency to just be an int, not string
   k['s'] = int(k['s'])
 
-print 'loading notes...'
+print('loading notes...')
 notes_file = os.path.join(ROOT, 'logs/notes.txt')
 nevents = loadEvents(notes_file)
 
@@ -84,20 +84,20 @@ while curtime < maxt:
     f = open(fout, 'w')
     f.write(''.join( ['%d %s\n' % (x['t'], x['s']) for x in e3] ))
     f.close()
-    print 'wrote ' + fout
+    print('wrote ' + fout)
 
   if e2:
     fout = 'logs/keyfreq_%d.txt' % (t0, )
     f = open(fout, 'w')
     f.write(''.join( ['%d %s\n' % (x['t'], x['s']) for x in e2] ))
     f.close()
-    print 'wrote ' + fout
+    print('wrote ' + fout)
 
   if e1:
     fout = 'logs/window_%d.txt' % (t0, )
     f = open(fout, 'w')
     f.write(''.join( ['%d %s\n' % (x['t'], x['s']) for x in e1] ))
     f.close()
-    print 'wrote ' + fout
+    print('wrote ' + fout)
 
   curtime += 60*60*24

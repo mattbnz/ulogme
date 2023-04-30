@@ -1,5 +1,5 @@
-import SocketServer
-import SimpleHTTPServer
+import socketserver
+import http.server
 import sys
 import cgi
 import os
@@ -19,10 +19,10 @@ rootdir = os.getcwd()
 os.chdir('render')
 
 # Custom handler
-class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class CustomHandler(http.server.SimpleHTTPRequestHandler):
   def do_GET(self):
     # default behavior
-    SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self) 
+    http.server.SimpleHTTPRequestHandler.do_GET(self)
 
   def do_POST(self):
     form = cgi.FieldStorage(
@@ -39,7 +39,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
       updateEvents() # defined in export_events.py
       os.chdir('render') # pop back to render directory
       result = 'OK'
-      
+
     if self.path == '/addnote':
       # add note at specified time and refresh
       note = form.getvalue('note')
@@ -61,14 +61,13 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
       updateEvents() # defined in export_events.py
       os.chdir('render') # go back to render
       result = 'OK'
-    
+
     self.send_response(200)
     self.send_header('Content-type','text/html')
     self.end_headers()
     self.wfile.write(result)
 
-httpd = SocketServer.ThreadingTCPServer((IP, PORT), CustomHandler)
+httpd = socketserver.ThreadingTCPServer((IP, PORT), CustomHandler)
 
-print 'Serving ulogme, see it on http://localhost:' + `PORT`
+print(('Serving ulogme, see it on http://localhost:' + repr(PORT)))
 httpd.serve_forever()
-
