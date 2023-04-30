@@ -11,6 +11,8 @@ helperfile="/dev/shm/keyfreqraw.txt" # temporary helper file
 
 mkdir -p logs
 
+trap 'kill $(jobs -p)' EXIT
+
 while true
 do
   showkey > $helperfile &
