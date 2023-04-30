@@ -65,7 +65,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
     self.send_response(200)
     self.send_header('Content-type','text/html')
     self.end_headers()
-    self.wfile.write(result)
+    self.wfile.write(result.encode("utf-8"))
 
 httpd = socketserver.ThreadingTCPServer((IP, PORT), CustomHandler)
 
